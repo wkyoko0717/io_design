@@ -10,29 +10,53 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500&family=Shippori+Mincho:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap"
     rel="stylesheet">
-  <script>
-    (() => {
-      const setInitialViewportSize = () => {
-        document.documentElement.style.setProperty('--initial-vw', `${window.innerWidth}px`);
-        document.documentElement.style.setProperty('--initial-vh', `${window.innerHeight}px`);
-      };
-
-      setInitialViewportSize();
-
-      window.addEventListener('orientationchange', () => {
-        window.setTimeout(setInitialViewportSize, 350);
-      });
-    })();
-  </script>
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 
 <body>
 
+  <!-- ========== BG LAYERS (fixed div — iOS flicker fix) ========== -->
+  <div class="bg-layer" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo">IO design</a>
+
+      <nav class="nav__links" aria-label="メインナビゲーション">
+        <a href="#concept" class="nav__link">Concept</a>
+        <a href="#works" class="nav__link">Works</a>
+        <a href="#plan" class="nav__link">Plan</a>
+        <a href="#about" class="nav__link">About</a>
+        <a href="#contact" class="nav__link nav__link--cta">Contact</a>
+      </nav>
+
+      <button class="nav__hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span class="nav__bar"></span>
+        <span class="nav__bar"></span>
+        <span class="nav__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========== MOBILE DRAWER ========== -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer__bg"></div>
+    <nav class="drawer__nav">
+      <a href="#concept" class="drawer__link" data-di="0">Concept</a>
+      <a href="#works" class="drawer__link" data-di="1">Works</a>
+      <a href="#plan" class="drawer__link" data-di="2">Plan</a>
+      <a href="#about" class="drawer__link" data-di="3">About</a>
+      <a href="#contact" class="drawer__link drawer__link--cta" data-di="4">Contact</a>
+    </nav>
+    <p class="drawer__copy">© IO design</p>
+  </div>
+
   <!-- ========== HERO ========== -->
   <section class="hero" id="hero">
     <div class="hero__inner">
-      <p class="hero__label js-fade-up" data-delay="0">LP制作</p>
+      <p class="hero__label js-fade-up" data-delay="0">L P 制 作</p>
       <h1 class="hero__title js-fade-up" data-delay="150">
         <span class="hero__title-en">IO design</span>
       </h1>
@@ -41,7 +65,7 @@
         <span class="tag tag--outline">LP制作</span>
         <span class="tag tag--outline">個人レッスン</span>
       </div>
-      <!-- <div class="hero__deco-line js-fade-up" data-delay="700"></div> -->
+      <div class="hero__deco-line js-fade-up" data-delay="700"></div>
     </div>
     <div class="hero__scroll">
       <span class="hero__scroll-text">scroll</span>
@@ -87,31 +111,25 @@
         <p class="section__en section__en--light">WORKS</p>
         <div class="section__ornament section__ornament--light"></div>
       </div>
-      <p class="works__sub js-fade-up" data-delay="150">
-        多様な業種の方から、ご依頼を頂いています。
-      </p>
+      <p class="works__sub js-fade-up" data-delay="150">多様な業種の方から、ご依頼を頂いています。</p>
       <div class="works__grid js-fade-up" data-delay="300">
         <div class="works__card">
-          <div class="works__card-inner">
-            <span class="works__card-label">01</span>
+          <div class="works__card-inner"><span class="works__card-label">01</span>
             <p class="works__card-name">ネイルサロン</p>
           </div>
         </div>
         <div class="works__card">
-          <div class="works__card-inner">
-            <span class="works__card-label">02</span>
+          <div class="works__card-inner"><span class="works__card-label">02</span>
             <p class="works__card-name">占いサロン</p>
           </div>
         </div>
         <div class="works__card">
-          <div class="works__card-inner">
-            <span class="works__card-label">03</span>
+          <div class="works__card-inner"><span class="works__card-label">03</span>
             <p class="works__card-name">シェアオフィス</p>
           </div>
         </div>
         <div class="works__card">
-          <div class="works__card-inner">
-            <span class="works__card-label">04</span>
+          <div class="works__card-inner"><span class="works__card-label">04</span>
             <p class="works__card-name">AI教室</p>
           </div>
         </div>
@@ -129,17 +147,13 @@
       <div class="voice__list">
         <div class="voice__item js-fade-up" data-delay="150">
           <div class="voice__quote-mark">"</div>
-          <p class="voice__text">
-            私の好きなテイストを汲み取って頂き、とっても素敵なサイトに仕上げてもらいました。ずっと Instagram
-            だけで集客を頑張っていましたが、公式LPができたことによって、信頼度もアップし、お客様からのお問い合わせも増えたので、お願いして本当によかったです！
-          </p>
+          <p class="voice__text">私の好きなテイストを汲み取って頂き、とっても素敵なサイトに仕上げてもらいました。ずっと Instagram
+            だけで集客を頑張っていましたが、公式LPができたことによって、信頼度もアップし、お客様からのお問い合わせも増えたので、お願いして本当によかったです！</p>
           <div class="voice__bar"></div>
         </div>
         <div class="voice__item js-fade-up" data-delay="300">
           <div class="voice__quote-mark">"</div>
-          <p class="voice__text">
-            一発でイメージ通りのサイトを仕上げてもらい、驚きました。修正ナシで、そのまま使わせてもらっています。やりとりもスムーズでした。もっと早くお願いすればよかったです。
-          </p>
+          <p class="voice__text">一発でイメージ通りのサイトを仕上げてもらい、驚きました。修正ナシで、そのまま使わせてもらっています。やりとりもスムーズでした。もっと早くお願いすればよかったです。</p>
           <div class="voice__bar"></div>
         </div>
       </div>
@@ -242,9 +256,7 @@
     <div class="section__inner">
       <div class="about__inner">
         <div class="about__img-wrap js-fade-up">
-          <div class="about__img-placeholder">
-            <span>Photo</span>
-          </div>
+          <div class="about__img-placeholder"><span>Photo</span></div>
         </div>
         <div class="about__body">
           <div class="about__name js-fade-up" data-delay="150">
@@ -271,42 +283,34 @@
       </div>
       <div class="qa__list">
         <div class="qa__item js-fade-up" data-delay="0">
-          <div class="qa__q">
-            <span class="qa__q-mark">Q</span>
+          <div class="qa__q"><span class="qa__q-mark">Q</span>
             <p>支払いはどうしたら良いですか?</p>
           </div>
-          <div class="qa__a">
-            <span class="qa__a-mark">A</span>
+          <div class="qa__a"><span class="qa__a-mark">A</span>
             <p>柔軟にご対応します。通常は銀行振込でお願いしております。</p>
           </div>
         </div>
         <div class="qa__item js-fade-up" data-delay="100">
-          <div class="qa__q">
-            <span class="qa__q-mark">Q</span>
+          <div class="qa__q"><span class="qa__q-mark">Q</span>
             <p>前払いが怖くて不安なのですが...</p>
           </div>
-          <div class="qa__a">
-            <span class="qa__a-mark">A</span>
+          <div class="qa__a"><span class="qa__a-mark">A</span>
             <p>ランサーズ・メンタ経由でのお支払いにも対応しております。納品までは仮入金となるので、安心です。</p>
           </div>
         </div>
         <div class="qa__item js-fade-up" data-delay="200">
-          <div class="qa__q">
-            <span class="qa__q-mark">Q</span>
+          <div class="qa__q"><span class="qa__q-mark">Q</span>
             <p>修正をお願いする場合はどうなりますか?</p>
           </div>
-          <div class="qa__a">
-            <span class="qa__a-mark">A</span>
+          <div class="qa__a"><span class="qa__a-mark">A</span>
             <p>文字のみの簡単な修正は無償です。レイアウトの変更に関わる場合は、一箇所につき1,000円〜でお見積りさせて頂きます。</p>
           </div>
         </div>
         <div class="qa__item js-fade-up" data-delay="300">
-          <div class="qa__q">
-            <span class="qa__q-mark">Q</span>
+          <div class="qa__q"><span class="qa__q-mark">Q</span>
             <p>URLやドメインはどうなりますか?</p>
           </div>
-          <div class="qa__a">
-            <span class="qa__a-mark">A</span>
+          <div class="qa__a"><span class="qa__a-mark">A</span>
             <p>こちらにお任せ頂けたら、vercel.app 等のURLを無償で発行致します。.com 等のオリジナルドメインを希望される場合は、別途ご相談ください。</p>
           </div>
         </div>

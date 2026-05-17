@@ -1,26 +1,82 @@
 // ============================================================
-//  IO design — main.js
-//  GSAP + ScrollTrigger animations
+//  IO design — main.js  v2
+//  + navbar scroll / hamburger drawer
+//  + iOS background flicker fix (handled in CSS, JS補助)
 // ============================================================
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Utility ──────────────────────────────────────────────────
+// ============================================================
+//  NAVBAR — スクロールで半透明化 & ハンバーガー
+// ============================================================
 
-function lerp(a, b, t) {
-  return a + (b - a) * t;
+function initNav() {
+  const nav        = document.getElementById('nav');
+  const hamburger  = document.getElementById('hamburger');
+  const drawer     = document.getElementById('drawer');
+  const drawerLinks = drawer.querySelectorAll('.drawer__link');
+
+  // ── スクロールで .is-scrolled ────────────────────────────
+  const onScroll = () => {
+    if (window.scrollY > 40) {
+      nav.classList.add('is-scrolled');
+    } else {
+      nav.classList.remove('is-scrolled');
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // 初期実行
+
+  // ── ドロワー開閉 ─────────────────────────────────────────
+  let isOpen = false;
+
+  function openDrawer() {
+    isOpen = true;
+    hamburger.classList.add('is-open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    // body スクロール封じ（iOSでは position:fixed が必要）
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    isOpen = false;
+    hamburger.classList.remove('is-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => {
+    isOpen ? closeDrawer() : openDrawer();
+  });
+
+  // ドロワーリンク → 閉じてからスクロール
+  drawerLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
+  });
+
+  // Escape キー
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && isOpen) closeDrawer();
+  });
+
+  // ドロワー背景クリックで閉じる
+  drawer.querySelector('.drawer__bg').addEventListener('click', closeDrawer);
 }
 
 // ============================================================
-//  HERO — タイトルのきらめきエフェクト
+//  HERO — タイトルきらめき
 // ============================================================
 
 function initHeroGlimmer() {
   const titleEl = document.querySelector('.hero__title-en');
   if (!titleEl) return;
 
-  // シマーアニメーション（疑似要素をJSで制御しないので
-  // GSAP timeline で text-shadow を変化させる）
   gsap.to(titleEl, {
     textShadow: `
       0 0 80px rgba(200, 169, 110, 0.5),
@@ -35,10 +91,10 @@ function initHeroGlimmer() {
 }
 
 // ============================================================
-//  HERO scroll indicator パルス
+//  HERO scroll bar アニメーション
 // ============================================================
 
-function initScrollPulse() {
+function initScrollBar() {
   const bar = document.querySelector('.hero__scroll-bar');
   if (!bar) return;
 
@@ -49,7 +105,7 @@ function initScrollPulse() {
 }
 
 // ============================================================
-//  Fade-up on scroll — IntersectionObserver ベース
+//  Fade-up on scroll
 // ============================================================
 
 function initFadeUps() {
@@ -58,14 +114,9 @@ function initFadeUps() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-
-      const el = entry.target;
+      const el    = entry.target;
       const delay = parseFloat(el.dataset.delay || 0);
-
-      setTimeout(() => {
-        el.classList.add('is-visible');
-      }, delay);
-
+      setTimeout(() => el.classList.add('is-visible'), delay);
       observer.unobserve(el);
     });
   }, {
@@ -77,95 +128,10 @@ function initFadeUps() {
 }
 
 // ============================================================
-//  WORKS カード — ホバー時のゴールドパーティクル
-// ============================================================
-
-function initWorksCards() {
-  const cards = document.querySelectorAll('.works__card');
-
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      gsap.to(card, {
-        y: -4,
-        duration: 0.4,
-        ease: 'power2.out',
-      });
-    });
-
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, {
-        y: 0,
-        duration: 0.5,
-        ease: 'power2.inOut',
-      });
-    });
-  });
-}
-
-// ============================================================
-//  FLOW ライン アニメーション
-// ============================================================
-
-function initFlowLine() {
-  const line = document.querySelector('.flow__list::before');
-  // CSSで描いた疑似要素はJSから直接触れないので、
-  // GSAP ScrollTriggerでflow__listにclipPathを使う代替案
-
-  const flowList = document.querySelector('.flow__list');
-  if (!flowList) return;
-
-  // flow__listにoverflowは不要、アイテムごとのフェードで対応済み
-}
-
-// ============================================================
-//  PLAN カード — ゴールドオーラ呼吸
-// ============================================================
-
-function initPlanPulse() {
-  const cards = document.querySelectorAll('.plan__card');
-
-  cards.forEach((card, i) => {
-    gsap.to(card, {
-      boxShadow: `
-        0 0 40px rgba(200, 169, 110, 0.12),
-        0 0 80px rgba(200, 169, 110, 0.04),
-        inset 0 0 30px rgba(200, 169, 110, 0.03)
-      `,
-      duration: 2.5,
-      delay: i * 0.6,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-    });
-
-    card.addEventListener('mouseenter', () => {
-      gsap.to(card, {
-        boxShadow: `
-          0 0 60px rgba(200, 169, 110, 0.25),
-          0 0 120px rgba(200, 169, 110, 0.1)
-        `,
-        y: -6,
-        duration: 0.5,
-        ease: 'power2.out',
-      });
-    });
-
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, {
-        y: 0,
-        duration: 0.5,
-        ease: 'power2.inOut',
-      });
-    });
-  });
-}
-
-// ============================================================
-//  GSAP ScrollTrigger — セクション背景のパララックス
+//  GSAP パララックス (hero)
 // ============================================================
 
 function initParallax() {
-  // ヒーローのタイトルが少しゆっくり動くパララックス
   gsap.to('.hero__inner', {
     y: -60,
     ease: 'none',
@@ -179,13 +145,11 @@ function initParallax() {
 }
 
 // ============================================================
-//  GSAP ScrollTrigger — セクション装飾ラインの描画
+//  オーナメントライン描画
 // ============================================================
 
 function initOrnamentDraw() {
-  const ornaments = document.querySelectorAll('.section__ornament');
-
-  ornaments.forEach(el => {
+  document.querySelectorAll('.section__ornament').forEach(el => {
     gsap.fromTo(el,
       { scaleX: 0 },
       {
@@ -197,35 +161,44 @@ function initOrnamentDraw() {
           trigger: el,
           start: 'top 85%',
           toggleActions: 'play none none none',
-        }
+        },
       }
     );
   });
 }
 
 // ============================================================
-//  Q&A アコーディオン（オプション・現在は全展開表示）
+//  WORKS カード ホバー
 // ============================================================
 
-function initQAHover() {
-  const items = document.querySelectorAll('.qa__item');
+function initWorksCards() {
+  document.querySelectorAll('.works__card').forEach(card => {
+    card.addEventListener('mouseenter', () => gsap.to(card, { y: -4, duration: 0.4, ease: 'power2.out' }));
+    card.addEventListener('mouseleave', () => gsap.to(card, { y: 0,  duration: 0.5, ease: 'power2.inOut' }));
+  });
+}
 
-  items.forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      gsap.to(item, {
-        paddingLeft: 8,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
+// ============================================================
+//  PLAN カード 呼吸エフェクト
+// ============================================================
+
+function initPlanPulse() {
+  document.querySelectorAll('.plan__card').forEach((card, i) => {
+    gsap.to(card, {
+      boxShadow: '0 0 40px rgba(200,169,110,0.12), 0 0 80px rgba(200,169,110,0.04)',
+      duration: 2.5,
+      delay: i * 0.6,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
     });
 
-    item.addEventListener('mouseleave', () => {
-      gsap.to(item, {
-        paddingLeft: 0,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    });
+    card.addEventListener('mouseenter', () =>
+      gsap.to(card, { y: -6, duration: 0.5, ease: 'power2.out' })
+    );
+    card.addEventListener('mouseleave', () =>
+      gsap.to(card, { y: 0,  duration: 0.5, ease: 'power2.inOut' })
+    );
   });
 }
 
@@ -234,9 +207,7 @@ function initQAHover() {
 // ============================================================
 
 function initVoiceFloat() {
-  const quotes = document.querySelectorAll('.voice__quote-mark');
-
-  quotes.forEach((q, i) => {
+  document.querySelectorAll('.voice__quote-mark').forEach((q, i) => {
     gsap.to(q, {
       y: -6,
       duration: 3,
@@ -249,33 +220,27 @@ function initVoiceFloat() {
 }
 
 // ============================================================
-//  ボタン — ゴールドリップル
+//  ボタン リップル
 // ============================================================
 
 function initButtonRipple() {
-  const btns = document.querySelectorAll('.btn--primary');
-
-  btns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  document.querySelectorAll('.btn--primary').forEach(btn => {
+    btn.addEventListener('click', e => {
       const ripple = document.createElement('span');
-      ripple.style.cssText = `
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: rgba(200, 169, 110, 0.6);
-        pointer-events: none;
-        transform: translate(-50%, -50%) scale(0);
-      `;
+      const rect   = btn.getBoundingClientRect();
 
-      const rect = btn.getBoundingClientRect();
-      ripple.style.left = (e.clientX - rect.left) + 'px';
-      ripple.style.top  = (e.clientY - rect.top)  + 'px';
+      Object.assign(ripple.style, {
+        position: 'absolute',
+        width: '6px', height: '6px',
+        borderRadius: '50%',
+        background: 'rgba(200,169,110,0.6)',
+        pointerEvents: 'none',
+        transform: 'translate(-50%,-50%) scale(0)',
+        left: (e.clientX - rect.left) + 'px',
+        top:  (e.clientY - rect.top)  + 'px',
+      });
 
-      btn.style.position = 'relative';
-      btn.style.overflow = 'hidden';
       btn.appendChild(ripple);
-
       gsap.to(ripple, {
         scale: 40,
         opacity: 0,
@@ -292,27 +257,20 @@ function initButtonRipple() {
 // ============================================================
 
 window.addEventListener('DOMContentLoaded', () => {
-  // 少し遅らせてGSAP等の準備を待つ
   setTimeout(() => {
+    initNav();
     initFadeUps();
     initHeroGlimmer();
-    initScrollPulse();
+    initScrollBar();
     initParallax();
     initOrnamentDraw();
     initWorksCards();
     initPlanPulse();
-    initQAHover();
     initVoiceFloat();
     initButtonRipple();
   }, 50);
 });
 
-// ── Resize対応 ───────────────────────────────────────────────
-let lastViewportWidth = window.innerWidth;
-
 window.addEventListener('resize', () => {
-  if (window.innerWidth === lastViewportWidth) return;
-
-  lastViewportWidth = window.innerWidth;
   ScrollTrigger.refresh();
 });

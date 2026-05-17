@@ -1,39 +1,33 @@
 // ============================================================
 //  IO design — luxury LP styles
+//  v2: iOS background flicker fix + navbar
 // ============================================================
 
 // ── Variables ────────────────────────────────────────────────
-$gold: #C8A96E;
-$gold-light: #E2CC9A;
-$gold-pale: #F5EDD8;
-$black: #0D0C0A;
-$dark: #1A1812;
-$beige: #EDE8DF;
-$white: #FDFCF9;
-$magenta: #3D1A3A;
-$magenta-mid: #6B2560;
-$text-dark: #2A2520;
-$text-mid: #5C5448;
+$gold:        #C8A96E;
+$gold-light:  #E2CC9A;
+$gold-pale:   #F5EDD8;
+$black:       #0D0C0A;
+$dark:        #1A1812;
+$beige:       #EDE8DF;
+$white:       #FDFCF9;
+$magenta:     #3D1A3A;
+$text-dark:   #2A2520;
+$text-mid:    #5C5448;
 
-// ── Fonts ────────────────────────────────────────────────────
-$font-ja: 'Noto Serif JP', 'Shippori Mincho', serif;
-$font-en: 'Cormorant Garamond', 'EB Garamond', serif;
+$font-ja:     'Noto Serif JP', 'Shippori Mincho', serif;
+$font-en:     'Cormorant Garamond', 'EB Garamond', serif;
 
-// ── Breakpoints ──────────────────────────────────────────────
-$sp: 480px;
+$nav-h:       58px; // ナビの高さ
 
 // ── Reset / Base ─────────────────────────────────────────────
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  font-size: 16.8px;
+  font-size: 14px;
   scroll-behavior: smooth;
+  // iOSのaddress bar出入りで100vhが揺れる問題をdvhで吸収
+  --vh: 1vh;
 }
 
 body {
@@ -46,53 +40,328 @@ body {
   overflow-x: hidden;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
 
-img {
-  max-width: 100%;
-  display: block;
-}
-
-// ── Background ───────────────────────────────────────────────
-body::before {
-  content: '';
+// ============================================================
+//  背景レイヤー — iOS flicker fix
+//  body::before に background-attachment:fixed を使うとiOSで
+//  アドレスバーの出入りのたびに背景が飛ぶ。
+//  解決策: position:fixed な <div> に背景を載せ、
+//  transform:translateZ(0) + will-change:transform でGPU合成層に固定。
+// ============================================================
+.bg-layer {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  width: var(--initial-vw);
-  height: var(--initial-vh);
-  transform: translate(-50%, -50%);
-  background-image: url('../images/bg.png');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  inset: 0;
+  // background-attachment:fixed は**使わない** (iOS Safari バグ)
+  background: url('../images/bg.png') center center / cover no-repeat;
   z-index: -2;
+  // GPU合成レイヤーに固定することでリペイントを防ぐ
+  transform: translateZ(0);
+  will-change: transform;
+  // iOSでpx指定のfixedがバウンスすることがあるので念のため
+  backface-visibility: hidden;
 }
 
-body::after {
-  content: '';
+.bg-overlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  width: var(--initial-vw);
-  height: var(--initial-vh);
-  transform: translate(-50%, -50%);
+  inset: 0;
   background: rgba($black, 0.55);
   z-index: -1;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-// ── Section Base ─────────────────────────────────────────────
+// ============================================================
+//  NAVIGATION
+// ============================================================
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: $nav-h;
+  // 透明→スクロールで半透明に（JSでクラス付与）
+  background: transparent;
+  transition: background 0.5s ease, border-color 0.5s ease;
+  border-bottom: 1px solid transparent;
+
+  &.is-scrolled {
+    background: rgba($black, 0.7);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border-bottom-color: rgba($gold, 0.15);
+  }
+}
+
+.nav__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// ロゴ
+.nav__logo {
+  font-family: $font-en;
+  font-size: 1.05rem;
+  font-style: italic;
+  letter-spacing: 0.12em;
+  color: $white;
+  font-weight: 300;
+  transition: color 0.3s;
+
+  &:hover { color: $gold-light; }
+}
+
+// デスクトップリンク
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav__link {
+  font-family: $font-en;
+  font-size: 0.7rem;
+  font-style: italic;
+  letter-spacing: 0.25em;
+  color: rgba($white, 0.75);
+  position: relative;
+  transition: color 0.3s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: $gold;
+    transition: width 0.35s ease;
+  }
+
+  &:hover {
+    color: $gold-light;
+    &::after { width: 100%; }
+  }
+
+  &--cta {
+    color: $gold;
+    border: 1px solid rgba($gold, 0.5);
+    padding: 6px 18px;
+    font-style: normal;
+    letter-spacing: 0.2em;
+
+    &::after { display: none; }
+
+    &:hover {
+      color: $gold-light;
+      border-color: $gold;
+      background: rgba($gold, 0.06);
+    }
+  }
+}
+
+// ハンバーガーボタン（SP用）
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  position: relative;
+  z-index: 200;
+}
+
+.nav__bar {
+  display: block;
+  height: 1px;
+  background: rgba($gold, 0.8);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity   0.3s ease,
+              width     0.35s ease;
+
+  &:nth-child(1) { width: 22px; }
+  &:nth-child(2) { width: 16px; }
+  &:nth-child(3) { width: 22px; }
+}
+
+// ハンバーガー open 状態
+.nav__hamburger.is-open {
+  .nav__bar {
+    &:nth-child(1) {
+      width: 22px;
+      transform: translateY(6px) rotate(45deg);
+    }
+    &:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    &:nth-child(3) {
+      width: 22px;
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  }
+}
+
+// ============================================================
+//  DRAWER（モバイルメニュー）
+// ============================================================
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s 0.5s;
+}
+
+.drawer__bg {
+  position: absolute;
+  inset: 0;
+  background: rgba($black, 0.92);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+
+  // ゴールドのエッジグロウ
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 10% 20%, rgba($gold, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 90% 80%, rgba($magenta, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+}
+
+.drawer.is-open {
+  pointer-events: auto;
+  visibility: visible;
+  transition: visibility 0s 0s;
+
+  .drawer__bg {
+    opacity: 1;
+  }
+}
+
+.drawer__nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer__link {
+  font-family: $font-en;
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.18em;
+  color: rgba($white, 0.85);
+  padding: 10px 20px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity   0.5s ease,
+    transform 0.5s cubic-bezier(0.22, 0.82, 0.36, 1),
+    color     0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 20px;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, $gold, transparent);
+    transition: width 0.4s ease;
+  }
+
+  &:hover {
+    color: $gold-light;
+    &::before { width: calc(100% - 40px); }
+  }
+
+  &--cta {
+    font-family: $font-ja;
+    font-size: 0.78rem;
+    font-style: normal;
+    letter-spacing: 0.35em;
+    color: $gold;
+    border: 1px solid rgba($gold, 0.5);
+    padding: 12px 32px;
+    margin-top: 16px;
+
+    &::before { display: none; }
+
+    &:hover {
+      color: $gold-light;
+      border-color: $gold;
+      background: rgba($gold, 0.06);
+    }
+  }
+}
+
+.drawer.is-open .drawer__link {
+  opacity: 1;
+  transform: translateY(0);
+
+  @for $i from 0 through 4 {
+    &[data-di="#{$i}"] {
+      transition-delay: #{0.12 + $i * 0.07}s;
+    }
+  }
+}
+
+.drawer__copy {
+  position: absolute;
+  bottom: 28px;
+  font-family: $font-en;
+  font-size: 0.6rem;
+  font-style: italic;
+  letter-spacing: 0.35em;
+  color: rgba($gold, 0.35);
+  z-index: 1;
+}
+
+// ============================================================
+//  セクション共通
+// ============================================================
 section {
   position: relative;
   padding: 90px 0;
   width: 100%;
 }
 
+// ヒーロー以外はナビの高さ分を考慮（最初のセクションはヒーロー内で対応済み）
+section:not(.hero) {
+  scroll-margin-top: $nav-h;
+}
+
 .section--bg {
-  background: rgba($white, 0.4);
+  background: rgba($white, 0.08);
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   border-top: 1px solid rgba($gold, 0.18);
@@ -113,7 +382,6 @@ section {
   gap: 40px;
 }
 
-// ── Section Header ───────────────────────────────────────────
 .section__header {
   display: flex;
   flex-direction: column;
@@ -129,10 +397,8 @@ section {
   letter-spacing: 0.4em;
   color: $text-dark;
   text-transform: uppercase;
-}
 
-.section__en--light {
-  color: $gold-light;
+  &--light { color: $gold-light; }
 }
 
 .section__ornament {
@@ -141,8 +407,7 @@ section {
   background: linear-gradient(90deg, transparent, $gold, transparent);
   position: relative;
 
-  &::before,
-  &::after {
+  &::before, &::after {
     content: '';
     position: absolute;
     top: -3px;
@@ -152,23 +417,12 @@ section {
     transform: rotate(45deg);
   }
 
-  &::before {
-    left: 50%;
-    translate: calc(-50% - 30px) 0;
-  }
-
-  &::after {
-    left: 50%;
-    translate: calc(-50% + 25px) 0;
-  }
+  &::before { left: 50%; translate: calc(-50% - 30px) 0; }
+  &::after  { left: 50%; translate: calc(-50% + 25px) 0; }
 
   &--light {
     background: linear-gradient(90deg, transparent, $gold-light, transparent);
-
-    &::before,
-    &::after {
-      border-color: $gold-light;
-    }
+    &::before, &::after { border-color: $gold-light; }
   }
 }
 
@@ -210,14 +464,13 @@ section {
   transition: all 0.4s ease;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 
   &--primary {
     background: transparent;
     color: $text-dark;
     border: 1px solid rgba($gold, 0.8);
-    box-shadow:
-      inset 0 0 0 0 rgba($gold, 0.12),
-      0 0 20px rgba($gold, 0.08);
+    box-shadow: 0 0 20px rgba($gold, 0.08);
 
     &::before {
       content: '';
@@ -230,14 +483,9 @@ section {
 
     &:hover {
       border-color: $gold;
-      box-shadow:
-        0 0 30px rgba($gold, 0.2),
-        inset 0 0 20px rgba($gold, 0.06);
+      box-shadow: 0 0 30px rgba($gold, 0.2);
       color: $gold;
-
-      &::before {
-        opacity: 1;
-      }
+      &::before { opacity: 1; }
     }
   }
 
@@ -253,11 +501,12 @@ section {
   }
 }
 
-// ── Fade Animation State ──────────────────────────────────────
+// ── Fade-up animation ─────────────────────────────────────────
 .js-fade-up {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.85s cubic-bezier(0.22, 0.82, 0.36, 1),
+  transition:
+    opacity   0.85s cubic-bezier(0.22, 0.82, 0.36, 1),
     transform 0.85s cubic-bezier(0.22, 0.82, 0.36, 1);
 
   &.is-visible {
@@ -270,12 +519,14 @@ section {
 //  1 HERO
 // ============================================================
 .hero {
-  min-height: var(--initial-vh);
+  min-height: 100vh;
+  // iOSでのdvh対応
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 24px;
+  padding: $nav-h 24px 0;
   position: relative;
 }
 
@@ -292,22 +543,18 @@ section {
   font-size: 0.62rem;
   letter-spacing: 0.55em;
   color: rgba($gold, 0.7);
+  font-style: italic;
 }
 
-.hero__title {
-  position: relative;
-  line-height: 1;
-}
+.hero__title { position: relative; line-height: 1; }
 
 .hero__title-en {
   font-family: $font-en;
-  font-size: clamp(2.333rem, 13vw, 4rem);
+  font-size: clamp(2.8rem, 13vw, 4.8rem);
   font-weight: 300;
   letter-spacing: 0.12em;
   color: $white;
   display: block;
-
-  // ゴールドグロウ
   text-shadow:
     0 0 60px rgba($gold, 0.25),
     0 0 120px rgba($gold, 0.08);
@@ -356,30 +603,11 @@ section {
   width: 1px;
   height: 44px;
   background: linear-gradient(180deg, rgba($gold, 0.6) 0%, transparent 100%);
-  animation: scrollBar 2s ease-in-out infinite;
-}
-
-@keyframes scrollBar {
-
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scaleY(0.6) translateY(0);
-    transform-origin: top;
-  }
-
-  50% {
-    opacity: 1;
-    transform: scaleY(1) translateY(0);
-    transform-origin: top;
-  }
 }
 
 // ============================================================
 //  2 CONCEPT
 // ============================================================
-.concept__body {}
-
 .concept__text {
   font-size: 0.88rem;
   line-height: 2.3;
@@ -439,10 +667,7 @@ section {
   &:hover {
     border-color: rgba($gold, 0.6);
     background: rgba($white, 0.07);
-
-    &::before {
-      opacity: 1;
-    }
+    &::before { opacity: 1; }
   }
 }
 
@@ -486,9 +711,7 @@ section {
   background: rgba($white, 0.05);
   border: 1px solid rgba($gold, 0.15);
 
-  // 角の装飾
-  &::before,
-  &::after {
+  &::before, &::after {
     content: '';
     position: absolute;
     width: 12px;
@@ -496,18 +719,8 @@ section {
     border-color: rgba($gold, 0.5);
     border-style: solid;
   }
-
-  &::before {
-    top: -1px;
-    left: -1px;
-    border-width: 1px 0 0 1px;
-  }
-
-  &::after {
-    bottom: -1px;
-    right: -1px;
-    border-width: 0 1px 1px 0;
-  }
+  &::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  &::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
 }
 
 .voice__quote-mark {
@@ -542,7 +755,6 @@ section {
 .flow__list {
   display: flex;
   flex-direction: column;
-  gap: 0;
   width: 100%;
   position: relative;
 
@@ -550,14 +762,15 @@ section {
     content: '';
     position: absolute;
     left: 22px;
-    top: 0;
-    bottom: 0;
+    top: 0; bottom: 0;
     width: 1px;
-    background: linear-gradient(180deg,
-        transparent 0%,
-        rgba($gold, 0.3) 10%,
-        rgba($gold, 0.3) 90%,
-        transparent 100%);
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba($gold, 0.3) 10%,
+      rgba($gold, 0.3) 90%,
+      transparent 100%
+    );
   }
 }
 
@@ -567,11 +780,7 @@ section {
   align-items: flex-start;
   padding: 22px 0;
   border-bottom: 1px solid rgba($gold-light, 0.08);
-  position: relative;
-
-  &:last-child {
-    border-bottom: none;
-  }
+  &:last-child { border-bottom: none; }
 }
 
 .flow__num {
@@ -596,8 +805,6 @@ section {
     box-shadow: 0 0 8px rgba($gold, 0.5);
   }
 }
-
-.flow__content {}
 
 .flow__title {
   font-family: $font-en;
@@ -643,19 +850,16 @@ section {
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100%;
     height: 2px;
     background: linear-gradient(90deg, transparent, $gold, transparent);
   }
 
-  // コーナーの装飾
   &::after {
     content: '';
     position: absolute;
-    bottom: -1px;
-    right: -1px;
+    bottom: -1px; right: -1px;
     width: 40px;
     height: 40px;
     border-right: 1px solid rgba($gold, 0.5);
@@ -665,8 +869,7 @@ section {
 
 .plan__card-deco {
   position: absolute;
-  top: -30px;
-  right: -30px;
+  top: -30px; right: -30px;
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -715,12 +918,7 @@ section {
   color: rgba($white, 0.35);
   margin-top: 6px;
   text-decoration: line-through;
-
-  span {
-    text-decoration: none;
-    font-size: 0.6rem;
-    margin-right: 4px;
-  }
+  span { text-decoration: none; font-size: 0.6rem; margin-right: 4px; }
 }
 
 .plan__notes {
@@ -838,31 +1036,23 @@ section {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .qa__item {
   border-bottom: 1px solid rgba($gold, 0.12);
   padding: 22px 0;
-
-  &:first-child {
-    border-top: 1px solid rgba($gold, 0.12);
-  }
+  &:first-child { border-top: 1px solid rgba($gold, 0.12); }
 }
 
-.qa__q,
-.qa__a {
+.qa__q, .qa__a {
   display: flex;
   gap: 14px;
   align-items: flex-start;
 }
 
-.qa__a {
-  margin-top: 10px;
-}
+.qa__a { margin-top: 10px; }
 
-.qa__q-mark,
-.qa__a-mark {
+.qa__q-mark, .qa__a-mark {
   font-family: $font-en;
   font-size: 0.88rem;
   font-style: italic;
@@ -870,27 +1060,10 @@ section {
   padding-top: 1px;
 }
 
-.qa__q-mark {
-  color: $gold;
-}
-
-.qa__a-mark {
-  color: rgba($white, 0.4);
-}
-
-.qa__q p {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: $text-dark;
-  line-height: 1.8;
-}
-
-.qa__a p {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  line-height: 1.9;
-  color: $text-mid;
-}
+.qa__q-mark { color: $gold; }
+.qa__a-mark { color: rgba($white, 0.4); }
+.qa__q p { font-size: 0.75rem; letter-spacing: 0.1em; color: $text-dark; line-height: 1.8; }
+.qa__a p { font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.9; color: $text-mid; }
 
 // ============================================================
 //  9 CONTACT
@@ -929,30 +1102,29 @@ section {
 }
 
 // ============================================================
-//  PC — max-width centering
+//  レスポンシブ
 // ============================================================
+
+// SP: ハンバーガー表示、デスクトップリンク非表示
+@media (max-width: 768px) {
+  .nav__links { display: none; }
+  .nav__hamburger { display: flex; }
+}
+
+// PC: 中央寄せ維持
 @media (min-width: 769px) {
-  .section__inner {
-    max-width: 560px;
-  }
+  .section__inner { max-width: 560px; }
 
-  .hero__title-en {
-    font-size: 4.167rem;
-  }
+  .hero__title-en { font-size: 5rem; }
 
-  .works__grid {
-    grid-template-columns: 1fr 1fr;
-    max-width: 460px;
-  }
+  .works__grid { max-width: 460px; }
 
   .plan__grid {
     flex-direction: row;
     gap: 20px;
   }
 
-  .plan__card {
-    flex: 1;
-  }
+  .plan__card { flex: 1; }
 
   .about__inner {
     flex-direction: row;
@@ -965,11 +1137,7 @@ section {
     text-align: left;
   }
 
-  .about__img-wrap {
-    flex-shrink: 0;
-  }
+  .about__img-wrap { flex-shrink: 0; }
 
-  .contact__btns {
-    flex-direction: row;
-  }
+  .contact__btns { flex-direction: row; }
 }
