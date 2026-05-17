@@ -16,6 +16,7 @@ $text-dark: #2A2520;
 $text-mid: #5C5448;
 
 $font-ja: 'Noto Serif JP', 'Shippori Mincho', serif;
+$font-gothic: 'Zen Kaku Gothic Antique', sans-serif;
 $font-en: 'Cormorant Garamond', 'EB Garamond', serif;
 $font-logo: 'Waterfall', cursive;
 
@@ -396,7 +397,7 @@ section:not(.hero) {
 }
 
 .section--bg {
-  background: rgba($white, 0.4);
+  background: rgba($black, 0.4);
   backdrop-filter: blur(10px) saturate(1.2);
   -webkit-backdrop-filter: blur(10px) saturate(1.2);
   border-top: 1px solid rgba($gold, 0.18);
@@ -485,6 +486,8 @@ section:not(.hero) {
 
 .tag {
   font-size: 0.72rem;
+  font-family: $font-gothic;
+  font-weight: 400;
   letter-spacing: 0.1em;
   padding: 4px 14px;
   display: inline-block;
@@ -499,8 +502,8 @@ section:not(.hero) {
 
   &--gold {
     border: 1px solid rgba($gold, 0.4);
-    color: $text-dark;
-    background: rgba($gold-pale, 0.3);
+    color: $dark;
+    background: rgba($gold-pale, 0.56);
     border-radius: 4px;
   }
 }
@@ -652,7 +655,7 @@ section:not(.hero) {
 
 .hero__scroll-text {
   font-family: $font-en;
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   letter-spacing: 0.4em;
   color: rgba($gold, 0.6);
   font-style: italic;
@@ -661,7 +664,7 @@ section:not(.hero) {
 .hero__scroll-bar {
   display: block;
   width: 1px;
-  height: 44px;
+  height: 80px;
   background: linear-gradient(180deg, rgba($gold, 0.6) 0%, transparent 100%);
 }
 
@@ -673,6 +676,7 @@ section:not(.hero) {
   line-height: 2.3;
   letter-spacing: 0.18em;
   text-align: center;
+  opacity: 0.56;
   color: $beige;
 }
 
@@ -702,6 +706,7 @@ section:not(.hero) {
 
 .concept__clients-label {
   font-size: 0.66rem;
+  font-family: $font-gothic;
   letter-spacing: 0.3em;
   color: $gold;
 }
@@ -727,6 +732,8 @@ section:not(.hero) {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  color: inherit;
+  text-decoration: none;
 
   &:hover .works__card-frame {
     border-color: rgba($gold, 0.6);
@@ -804,7 +811,7 @@ section:not(.hero) {
 //  4 VOICE
 // ============================================================
 .voice {
-  --voice-bg-opacity: 0.2;
+  --voice-bg-opacity: 0.56;
   overflow: hidden;
 
   &::before {
@@ -863,7 +870,7 @@ section:not(.hero) {
   font-family: $font-en;
   font-size: 3rem;
   line-height: 1;
-  color: rgba($gold, 0.8);
+  color: rgba($white, 0.4);
   position: absolute;
   top: 12px;
   left: 16px;
@@ -881,7 +888,8 @@ section:not(.hero) {
 .voice__bar {
   width: 30px;
   height: 1px;
-  background: linear-gradient(90deg, $gold, transparent);
+  background: linear-gradient(90deg, $white, transparent);
+  opacity: 0.4;
   margin-top: 16px;
 }
 
@@ -971,6 +979,26 @@ section:not(.hero) {
 // ============================================================
 //  6 PLAN
 // ============================================================
+.plan {
+  --plan-bg-opacity: 0.45;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('../bg_05.png') center center / cover no-repeat;
+    opacity: var(--plan-bg-opacity);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section__inner {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 .plan__grid {
   display: flex;
   flex-direction: column;
@@ -980,7 +1008,7 @@ section:not(.hero) {
 
 .plan__card {
   position: relative;
-  background: rgba($white, 0.2);
+  background: rgba($white, 0.4);
   border: 1px solid rgba($gold, 0.25);
   padding: 36px 28px;
   border-radius: 10px;
@@ -1019,7 +1047,7 @@ section:not(.hero) {
 }
 
 .plan__card-title {
-  font-size: 0.85rem;
+  font-size: 1rem;
   letter-spacing: 0.25em;
   color: $gold;
   margin-bottom: 12px;
@@ -1029,12 +1057,12 @@ section:not(.hero) {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   line-height: 2;
-  color: $text-dark;
+  color: $dark;
   margin-bottom: 24px;
 }
 
 .plan__price-block {
-  border-top: 1px solid rgba($gold, 0.2);
+  border-top: 1px solid rgba($gold, 0.56);
   padding-top: 20px;
 }
 
@@ -1079,6 +1107,7 @@ section:not(.hero) {
   font-size: 0.68rem;
   letter-spacing: 0.15em;
   color: $white;
+  opacity: 0.56;
 }
 
 // ============================================================
@@ -1186,7 +1215,7 @@ section:not(.hero) {
 //  8 Q&A
 // ============================================================
 .qa {
-  background: rgba($white, 0.2);
+  background: rgba($white, 0.30);
   overflow: hidden;
 
   &::before {
@@ -1209,6 +1238,7 @@ section:not(.hero) {
   width: 100%;
   display: flex;
   flex-direction: column;
+  font-family: $font-gothic;
 }
 
 .qa__item {
@@ -1233,7 +1263,7 @@ section:not(.hero) {
 
 .qa__q-mark,
 .qa__a-mark {
-  font-family: $font-en;
+  font-family: inherit;
   font-size: 0.88rem;
   font-style: italic;
   min-width: 16px;
@@ -1241,7 +1271,7 @@ section:not(.hero) {
 }
 
 .qa__q-mark {
-  color: $gold;
+  color: $gold-light;
 }
 
 .qa__a-mark {
@@ -1377,6 +1407,12 @@ section:not(.hero) {
   .voice {
     &::before {
       background-image: url('../bg_02_pc.png');
+    }
+  }
+
+  .plan {
+    &::before {
+      background-image: url('../bg_05_pc.png');
     }
   }
 
