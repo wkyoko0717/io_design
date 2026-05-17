@@ -32,7 +32,7 @@ $sp: 480px;
 }
 
 html {
-  font-size: 14px;
+  font-size: 16.8px;
   scroll-behavior: smooth;
 }
 
@@ -294,7 +294,7 @@ section {
 
 .hero__title-en {
   font-family: $font-en;
-  font-size: clamp(2.8rem, 13vw, 4.8rem);
+  font-size: clamp(2.333rem, 13vw, 4rem);
   font-weight: 300;
   letter-spacing: 0.12em;
   color: $white;
@@ -930,7 +930,7 @@ section {
   }
 
   .hero__title-en {
-    font-size: 5rem;
+    font-size: 4.167rem;
   }
 
   .works__grid {
