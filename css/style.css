@@ -8,7 +8,9 @@
 html {
   font-size: 14px;
   scroll-behavior: smooth;
-  --vh: 1vh;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  --stable-vh: 1vh;
 }
 
 body {
@@ -19,6 +21,7 @@ body {
   letter-spacing: 0.12em;
   line-height: 1.9;
   overflow-x: hidden;
+  min-height: 100%;
 }
 
 a {
@@ -36,8 +39,7 @@ img {
   inset: 0;
   background: url("../images/bg.png") center center/cover no-repeat;
   z-index: -2;
-  transform: translateZ(0);
-  will-change: transform;
+  transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
 
@@ -46,8 +48,7 @@ img {
   inset: 0;
   background: rgba(13, 12, 10, 0.55);
   z-index: -1;
-  transform: translateZ(0);
-  will-change: transform;
+  transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
 

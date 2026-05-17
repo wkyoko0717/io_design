@@ -7,6 +7,21 @@
 gsap.registerPlugin(ScrollTrigger);
 
 // ============================================================
+//  Stable viewport height — mobile address bar jump fix
+// ============================================================
+
+let viewportWidth = window.innerWidth;
+
+function setStableViewportHeight() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--stable-vh', `${vh}px`);
+}
+
+function isTouchViewport() {
+  return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+}
+
+// ============================================================
 //  NAVBAR — スクロールで半透明化 & ハンバーガー
 // ============================================================
 
@@ -257,6 +272,8 @@ function initButtonRipple() {
 // ============================================================
 
 window.addEventListener('DOMContentLoaded', () => {
+  setStableViewportHeight();
+
   setTimeout(() => {
     initNav();
     initFadeUps();
@@ -272,5 +289,20 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('resize', () => {
+  const nextWidth = window.innerWidth;
+
+  // スマホのaddress bar出入りは高さだけが変わるので、背景とScrollTriggerを再計算しない。
+  if (isTouchViewport() && nextWidth === viewportWidth) return;
+
+  viewportWidth = nextWidth;
+  setStableViewportHeight();
   ScrollTrigger.refresh();
+});
+
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    viewportWidth = window.innerWidth;
+    setStableViewportHeight();
+    ScrollTrigger.refresh();
+  }, 300);
 });
