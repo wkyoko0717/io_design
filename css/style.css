@@ -474,7 +474,7 @@ section:not(.hero) {
 
 .hero {
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: calc(var(--stable-vh, 1vh) * 100);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1058,6 +1058,25 @@ section:not(.hero) {
   }
   .nav__hamburger {
     display: flex;
+  }
+  .bg-layer,
+  .bg-overlay {
+    inset: auto;
+    top: -64px;
+    left: 0;
+    width: 100%;
+    height: calc(var(--stable-vh, 1vh) * 100 + 128px);
+    transform: none;
+    will-change: auto;
+  }
+  .bg-layer {
+    background-position: center top;
+  }
+  .section--bg,
+  .nav.is-scrolled,
+  .drawer__bg {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 @media (min-width: 769px) {
