@@ -308,6 +308,11 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Resize対応 ───────────────────────────────────────────────
+let lastViewportWidth = window.innerWidth;
+
 window.addEventListener('resize', () => {
+  if (window.innerWidth === lastViewportWidth) return;
+
+  lastViewportWidth = window.innerWidth;
   ScrollTrigger.refresh();
 });

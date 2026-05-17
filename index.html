@@ -10,6 +10,20 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500&family=Shippori+Mincho:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap"
     rel="stylesheet">
+  <script>
+    (() => {
+      const setInitialViewportSize = () => {
+        document.documentElement.style.setProperty('--initial-vw', `${window.innerWidth}px`);
+        document.documentElement.style.setProperty('--initial-vh', `${window.innerHeight}px`);
+      };
+
+      setInitialViewportSize();
+
+      window.addEventListener('orientationchange', () => {
+        window.setTimeout(setInitialViewportSize, 350);
+      });
+    })();
+  </script>
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 
