@@ -439,6 +439,7 @@ section:not(.hero) {
 .btn--primary {
   background: transparent;
   color: #C8A96E;
+  text-shadow: #fdfcf9 0 0 8px;
   border: 1px solid rgba(200, 169, 110, 0.8);
   box-shadow: 0 0 20px rgba(200, 169, 110, 0.08);
 }
@@ -631,10 +632,10 @@ section:not(.hero) {
   background: rgba(253, 252, 249, 0.07);
 }
 .works__card:hover .works__card-frame::before {
-  opacity: 0.86;
+  opacity: 1;
 }
 .works__card:hover .works__card-img {
-  opacity: 0.9;
+  opacity: 1;
   transform: scale(1.04);
 }
 
@@ -661,7 +662,7 @@ section:not(.hero) {
   -o-object-fit: cover;
      object-fit: cover;
   opacity: 0.82;
-  filter: saturate(0.92) contrast(0.96);
+  filter: saturate(1) contrast(0.96);
   transform: scale(1);
   transition: opacity 0.4s, transform 0.7s cubic-bezier(0.22, 0.82, 0.36, 1);
 }
@@ -698,7 +699,7 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_06_pc.png") center center/cover no-repeat;
+  background: url("../bg_06.png") center center/cover no-repeat;
   opacity: 1;
   pointer-events: none;
   z-index: 0;
@@ -719,6 +720,7 @@ section:not(.hero) {
   position: relative;
   padding: 28px 24px 24px;
   background: rgba(253, 252, 249, 0.5);
+  border: 1px solid rgba(200, 169, 110, 0.2);
   border-radius: 10px;
 }
 
