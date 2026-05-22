@@ -428,7 +428,7 @@ section:not(.hero) {
 
 .section__en {
   font-family: $font-en;
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   // font-style: italic;
   letter-spacing: 0.4em;
   color: $text-dark;
@@ -442,7 +442,7 @@ section:not(.hero) {
 .section__ornament {
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, $gold, transparent);
+  background: linear-gradient(90deg, transparent, $text-mid, transparent);
   position: relative;
 
   &::before,
@@ -452,7 +452,7 @@ section:not(.hero) {
     top: -3px;
     width: 6px;
     height: 6px;
-    border: 1px solid $gold;
+    border: 1px solid $text-mid;
     transform: rotate(45deg);
   }
 
@@ -512,7 +512,7 @@ section:not(.hero) {
 .btn {
   display: inline-block;
   font-family: $font-ja;
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   font-weight: 300;
   letter-spacing: 0.25em;
   padding: 14px 40px;
@@ -611,7 +611,7 @@ section:not(.hero) {
 
 .hero__title-en {
   font-family: $font-logo;
-  font-size: clamp(4rem, 16vw, 6.5rem);
+  font-size: clamp(4rem, 16vw, 8.8rem);
   font-weight: 400;
   font-style: italic;
   letter-spacing: 0.04em;
@@ -626,7 +626,7 @@ section:not(.hero) {
 .hero__catch {
   font-size: 1.25rem;
   letter-spacing: 0.4em;
-  color: rgba($white, 0.5);
+  color: rgba($white, 0.8);
   font-weight: 300;
 }
 
@@ -672,11 +672,11 @@ section:not(.hero) {
 //  2 CONCEPT
 // ============================================================
 .concept__text {
-  font-size: 0.88rem;
+  font-size: 1.2rem;
   line-height: 2.3;
   letter-spacing: 0.18em;
   text-align: center;
-  opacity: 0.56;
+  opacity: 0.8;
   color: $beige;
 }
 
@@ -715,7 +715,7 @@ section:not(.hero) {
 //  3 WORKS
 // ============================================================
 .works__sub {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   letter-spacing: 0.2em;
   color: rgba($white, 0.7);
   text-align: center;
@@ -762,9 +762,9 @@ section:not(.hero) {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(180deg, rgba($black, 0.12) 0%, rgba($black, 0.56) 100%),
-      linear-gradient(135deg, rgba($gold, 0.12) 0%, transparent 70%);
+    // background:
+    // linear-gradient(180deg, rgba($black, 0.12) 0%, rgba($black, 0.56) 100%),
+    // linear-gradient(135deg, rgba($gold, 0.12) 0%, transparent 70%);
     opacity: 1;
     transition: opacity 0.4s;
     z-index: 1;
@@ -811,7 +811,7 @@ section:not(.hero) {
 //  4 VOICE
 // ============================================================
 .voice {
-  --voice-bg-opacity: 0.56;
+  --voice-bg-opacity: 0.8;
   overflow: hidden;
 
   &::before {
@@ -840,30 +840,9 @@ section:not(.hero) {
 .voice__item {
   position: relative;
   padding: 28px 24px 24px;
-  background: rgba($white, 0.2);
-  border: 1px solid rgba($gold, 0.15);
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: rgba($gold, 0.5);
-    border-style: solid;
-  }
-
-  &::before {
-    top: -1px;
-    left: -1px;
-    border-width: 1px 0 0 1px;
-  }
-
-  &::after {
-    bottom: -1px;
-    right: -1px;
-    border-width: 0 1px 1px 0;
-  }
+  background: rgba($white, 0.5);
+  // border: 1px solid rgba($gold, 0.15);
+  border-radius: 10px;
 }
 
 .voice__quote-mark {
@@ -878,7 +857,8 @@ section:not(.hero) {
 }
 
 .voice__text {
-  font-size: 0.75rem;
+  font-size: 1rem;
+  font-family: $font-gothic;
   line-height: 2.1;
   letter-spacing: 0.1em;
   color: $text-dark;
@@ -954,7 +934,7 @@ section:not(.hero) {
 
 .flow__title {
   font-family: $font-en;
-  font-size: 0.92rem;
+  font-size: 1.2rem;
   letter-spacing: 0.15em;
   color: rgba($white, 0.9);
   font-style: italic;
@@ -962,7 +942,7 @@ section:not(.hero) {
 }
 
 .flow__desc {
-  font-size: 0.72rem;
+  font-size: 1rem;
   letter-spacing: 0.12em;
   color: rgba($white, 0.6);
   line-height: 1.9;
@@ -1008,7 +988,7 @@ section:not(.hero) {
 
 .plan__card {
   position: relative;
-  background: rgba($white, 0.4);
+  background: rgba($white, 0.64);
   border: 1px solid rgba($gold, 0.25);
   padding: 36px 28px;
   border-radius: 10px;
@@ -1049,12 +1029,16 @@ section:not(.hero) {
 .plan__card-title {
   font-size: 1rem;
   letter-spacing: 0.25em;
-  color: $gold;
+  color: $white;
   margin-bottom: 12px;
+  background-color: rgba($magenta, 0.56);
+  text-align: center;
+  text-shadow: $gold-pale 0px 0px 8px;
+  border-radius: 4px;
 }
 
 .plan__card-desc {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   letter-spacing: 0.12em;
   line-height: 2;
   color: $dark;
@@ -1062,32 +1046,35 @@ section:not(.hero) {
 }
 
 .plan__price-block {
-  border-top: 1px solid rgba($gold, 0.56);
+  border-top: 1px solid rgba($magenta, 0.2);
   padding-top: 20px;
 }
 
 .plan__price-limited {
-  font-size: 0.6rem;
+  font-size: 0.78rem;
   letter-spacing: 0.3em;
-  color: rgba($gold, 0.7);
+  color: rgba($white, 1);
   margin-bottom: 4px;
+  text-shadow: rgba($text-mid, 0.64) 0px 10px 8px;
 }
 
 .plan__price-main {
   font-family: $font-en;
-  font-size: 1.9rem;
+  font-size: 2.2rem;
   font-weight: 300;
   letter-spacing: 0.06em;
   color: $white;
   line-height: 1.2;
+  text-shadow: rgba($text-mid, 0.64) 0px 10px 8px;
 }
 
 .plan__price-normal {
   font-size: 1rem;
   letter-spacing: 0.12em;
-  color: rgba($white, 0.35);
+  color: rgba($white, 0.5);
   margin-top: 6px;
   text-decoration: line-through;
+  // text-shadow: rgba($text-mid, 0.64) -10px 10px 8px;
 
   span {
     text-decoration: none !important;
@@ -1104,7 +1091,7 @@ section:not(.hero) {
 }
 
 .plan__note {
-  font-size: 0.68rem;
+  font-size: 0.88rem;
   letter-spacing: 0.15em;
   color: $white;
   opacity: 0.56;
@@ -1122,8 +1109,8 @@ section:not(.hero) {
 }
 
 .about__img-wrap {
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   position: relative;
 
   &::before {
@@ -1168,7 +1155,7 @@ section:not(.hero) {
 }
 
 .about__name-jp {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   letter-spacing: 0.3em;
   color: rgba($white, 0.9);
 }
@@ -1195,7 +1182,7 @@ section:not(.hero) {
   gap: 10px;
 
   li {
-    font-size: 0.72rem;
+    font-size: 0.88rem;
     letter-spacing: 0.15em;
     color: rgba($white, 0.65);
     position: relative;
@@ -1223,7 +1210,7 @@ section:not(.hero) {
     position: absolute;
     inset: 0;
     background: url('../bg_06.png') center center / cover no-repeat;
-    opacity: 0.45;
+    opacity: 0.8;
     pointer-events: none;
     z-index: 0;
   }
@@ -1271,25 +1258,25 @@ section:not(.hero) {
 }
 
 .qa__q-mark {
-  color: $gold-light;
+  color: $text-mid;
 }
 
 .qa__a-mark {
-  color: rgba($white, 0.4);
+  color: rgba($white, 1);
 }
 
 .qa__q p {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   letter-spacing: 0.1em;
-  color: $text-dark;
+  color: rgba($text-mid, 0.88);
   line-height: 1.8;
 }
 
 .qa__a p {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   letter-spacing: 0.08em;
   line-height: 1.9;
-  color: $text-mid;
+  color: $text-dark;
 }
 
 // ============================================================
@@ -1315,7 +1302,7 @@ section:not(.hero) {
 }
 
 .contact__text {
-  font-size: 0.75rem;
+  font-size: 1rem;
   letter-spacing: 0.15em;
   line-height: 2.1;
   color: rgba($white, 0.7);
@@ -1417,7 +1404,7 @@ section:not(.hero) {
   }
 
   .hero__title-en {
-    font-size: 6.8rem;
+    font-size: 8.8rem;
   }
 
   .works__grid {

@@ -356,7 +356,7 @@ section:not(.hero) {
 
 .section__en {
   font-family: "Cormorant Garamond", "EB Garamond", serif;
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   letter-spacing: 0.4em;
   color: #2A2520;
   text-transform: uppercase;
@@ -368,7 +368,7 @@ section:not(.hero) {
 .section__ornament {
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+  background: linear-gradient(90deg, transparent, #5C5448, transparent);
   position: relative;
 }
 .section__ornament::before, .section__ornament::after {
@@ -377,7 +377,7 @@ section:not(.hero) {
   top: -3px;
   width: 6px;
   height: 6px;
-  border: 1px solid #C8A96E;
+  border: 1px solid #5C5448;
   transform: rotate(45deg);
 }
 .section__ornament::before {
@@ -427,7 +427,7 @@ section:not(.hero) {
 .btn {
   display: inline-block;
   font-family: "Noto Serif JP", "Shippori Mincho", serif;
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   font-weight: 300;
   letter-spacing: 0.25em;
   padding: 14px 40px;
@@ -512,7 +512,7 @@ section:not(.hero) {
 
 .hero__title-en {
   font-family: "Waterfall", cursive;
-  font-size: clamp(4rem, 16vw, 6.5rem);
+  font-size: clamp(4rem, 16vw, 8.8rem);
   font-weight: 400;
   font-style: italic;
   letter-spacing: 0.04em;
@@ -525,7 +525,7 @@ section:not(.hero) {
 .hero__catch {
   font-size: 1.25rem;
   letter-spacing: 0.4em;
-  color: rgba(253, 252, 249, 0.5);
+  color: rgba(253, 252, 249, 0.8);
   font-weight: 300;
 }
 
@@ -568,11 +568,11 @@ section:not(.hero) {
 }
 
 .concept__text {
-  font-size: 0.88rem;
+  font-size: 1.2rem;
   line-height: 2.3;
   letter-spacing: 0.18em;
   text-align: center;
-  opacity: 0.56;
+  opacity: 0.8;
   color: #EDE8DF;
 }
 
@@ -606,7 +606,7 @@ section:not(.hero) {
 }
 
 .works__sub {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   letter-spacing: 0.2em;
   color: rgba(253, 252, 249, 0.7);
   text-align: center;
@@ -650,7 +650,6 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(13, 12, 10, 0.12) 0%, rgba(13, 12, 10, 0.56) 100%), linear-gradient(135deg, rgba(200, 169, 110, 0.12) 0%, transparent 70%);
   opacity: 1;
   transition: opacity 0.4s;
   z-index: 1;
@@ -692,7 +691,7 @@ section:not(.hero) {
 }
 
 .voice {
-  --voice-bg-opacity: 0.56;
+  --voice-bg-opacity: 0.8;
   overflow: hidden;
 }
 .voice::before {
@@ -719,26 +718,8 @@ section:not(.hero) {
 .voice__item {
   position: relative;
   padding: 28px 24px 24px;
-  background: rgba(253, 252, 249, 0.2);
-  border: 1px solid rgba(200, 169, 110, 0.15);
-}
-.voice__item::before, .voice__item::after {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: rgba(200, 169, 110, 0.5);
-  border-style: solid;
-}
-.voice__item::before {
-  top: -1px;
-  left: -1px;
-  border-width: 1px 0 0 1px;
-}
-.voice__item::after {
-  bottom: -1px;
-  right: -1px;
-  border-width: 0 1px 1px 0;
+  background: rgba(253, 252, 249, 0.5);
+  border-radius: 10px;
 }
 
 .voice__quote-mark {
@@ -753,7 +734,8 @@ section:not(.hero) {
 }
 
 .voice__text {
-  font-size: 0.75rem;
+  font-size: 1rem;
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
   line-height: 2.1;
   letter-spacing: 0.1em;
   color: #2A2520;
@@ -818,7 +800,7 @@ section:not(.hero) {
 
 .flow__title {
   font-family: "Cormorant Garamond", "EB Garamond", serif;
-  font-size: 0.92rem;
+  font-size: 1.2rem;
   letter-spacing: 0.15em;
   color: rgba(253, 252, 249, 0.9);
   font-style: italic;
@@ -826,7 +808,7 @@ section:not(.hero) {
 }
 
 .flow__desc {
-  font-size: 0.72rem;
+  font-size: 1rem;
   letter-spacing: 0.12em;
   color: rgba(253, 252, 249, 0.6);
   line-height: 1.9;
@@ -867,7 +849,7 @@ section:not(.hero) {
 
 .plan__card {
   position: relative;
-  background: rgba(253, 252, 249, 0.4);
+  background: rgba(253, 252, 249, 0.64);
   border: 1px solid rgba(200, 169, 110, 0.25);
   padding: 36px 28px;
   border-radius: 10px;
@@ -906,12 +888,16 @@ section:not(.hero) {
 .plan__card-title {
   font-size: 1rem;
   letter-spacing: 0.25em;
-  color: #C8A96E;
+  color: #FDFCF9;
   margin-bottom: 12px;
+  background-color: rgba(61, 26, 58, 0.56);
+  text-align: center;
+  text-shadow: #F5EDD8 0px 0px 8px;
+  border-radius: 4px;
 }
 
 .plan__card-desc {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   letter-spacing: 0.12em;
   line-height: 2;
   color: #1A1812;
@@ -919,30 +905,32 @@ section:not(.hero) {
 }
 
 .plan__price-block {
-  border-top: 1px solid rgba(200, 169, 110, 0.56);
+  border-top: 1px solid rgba(61, 26, 58, 0.2);
   padding-top: 20px;
 }
 
 .plan__price-limited {
-  font-size: 0.6rem;
+  font-size: 0.78rem;
   letter-spacing: 0.3em;
-  color: rgba(200, 169, 110, 0.7);
+  color: #fdfcf9;
   margin-bottom: 4px;
+  text-shadow: rgba(92, 84, 72, 0.64) 0px 10px 8px;
 }
 
 .plan__price-main {
   font-family: "Cormorant Garamond", "EB Garamond", serif;
-  font-size: 1.9rem;
+  font-size: 2.2rem;
   font-weight: 300;
   letter-spacing: 0.06em;
   color: #FDFCF9;
   line-height: 1.2;
+  text-shadow: rgba(92, 84, 72, 0.64) 0px 10px 8px;
 }
 
 .plan__price-normal {
   font-size: 1rem;
   letter-spacing: 0.12em;
-  color: rgba(253, 252, 249, 0.35);
+  color: rgba(253, 252, 249, 0.5);
   margin-top: 6px;
   text-decoration: line-through;
 }
@@ -960,7 +948,7 @@ section:not(.hero) {
 }
 
 .plan__note {
-  font-size: 0.68rem;
+  font-size: 0.88rem;
   letter-spacing: 0.15em;
   color: #FDFCF9;
   opacity: 0.56;
@@ -975,8 +963,8 @@ section:not(.hero) {
 }
 
 .about__img-wrap {
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   position: relative;
 }
 .about__img-wrap::before {
@@ -1020,7 +1008,7 @@ section:not(.hero) {
 }
 
 .about__name-jp {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   letter-spacing: 0.3em;
   color: rgba(253, 252, 249, 0.9);
 }
@@ -1047,7 +1035,7 @@ section:not(.hero) {
   gap: 10px;
 }
 .about__list li {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   letter-spacing: 0.15em;
   color: rgba(253, 252, 249, 0.65);
   position: relative;
@@ -1070,7 +1058,7 @@ section:not(.hero) {
   position: absolute;
   inset: 0;
   background: url("../bg_06.png") center center/cover no-repeat;
-  opacity: 0.45;
+  opacity: 0.8;
   pointer-events: none;
   z-index: 0;
 }
@@ -1115,25 +1103,25 @@ section:not(.hero) {
 }
 
 .qa__q-mark {
-  color: #E2CC9A;
+  color: #5C5448;
 }
 
 .qa__a-mark {
-  color: rgba(253, 252, 249, 0.4);
+  color: #fdfcf9;
 }
 
 .qa__q p {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   letter-spacing: 0.1em;
-  color: #2A2520;
+  color: rgba(92, 84, 72, 0.88);
   line-height: 1.8;
 }
 
 .qa__a p {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   letter-spacing: 0.08em;
   line-height: 1.9;
-  color: #5C5448;
+  color: #2A2520;
 }
 
 .contact {
@@ -1154,7 +1142,7 @@ section:not(.hero) {
 }
 
 .contact__text {
-  font-size: 0.75rem;
+  font-size: 1rem;
   letter-spacing: 0.15em;
   line-height: 2.1;
   color: rgba(253, 252, 249, 0.7);
@@ -1229,7 +1217,7 @@ section:not(.hero) {
     background-image: url("../bg_05_pc.png");
   }
   .hero__title-en {
-    font-size: 6.8rem;
+    font-size: 8.8rem;
   }
   .works__grid {
     max-width: 460px;
