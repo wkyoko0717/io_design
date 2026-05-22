@@ -930,7 +930,7 @@ section:not(.hero) {
 .plan__price-normal {
   font-size: 1rem;
   letter-spacing: 0.12em;
-  color: rgba(253, 252, 249, 0.5);
+  color: rgba(92, 84, 72, 0.8);
   margin-top: 6px;
   text-decoration: line-through;
 }
