@@ -568,7 +568,7 @@ section:not(.hero) {
 }
 
 .concept__text {
-  font-size: 1.2rem;
+  font-size: 0.88rem;
   line-height: 2.3;
   letter-spacing: 0.18em;
   text-align: center;
@@ -698,8 +698,8 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_02.png") center center/cover no-repeat;
-  opacity: var(--voice-bg-opacity);
+  background: url("../bg_06_pc.png") center center/cover no-repeat;
+  opacity: 1;
   pointer-events: none;
   z-index: 0;
 }
@@ -1057,7 +1057,7 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_06.png") center center/cover no-repeat;
+  background: url("../bg_06_pc.png") center center/cover no-repeat;
   opacity: 0.8;
   pointer-events: none;
   z-index: 0;
