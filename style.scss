@@ -819,8 +819,8 @@ section:not(.hero) {
     content: '';
     position: absolute;
     inset: 0;
-    background: url('../bg_06.png') center center / cover no-repeat;
-    opacity: 1;
+    background: url('../bg_06_pc.png') center center / cover no-repeat;
+    opacity: 0.8;
     pointer-events: none;
     z-index: 0;
   }
