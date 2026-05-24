@@ -699,7 +699,7 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_06_pc.png") center center/cover no-repeat;
+  background: url("../images/bg_06_pc.png") center center/cover no-repeat;
   opacity: 0.8;
   pointer-events: none;
   z-index: 0;
@@ -832,7 +832,7 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_05.png") center center/cover no-repeat;
+  background: url("../images/bg_05.png") center center/cover no-repeat;
   opacity: var(--plan-bg-opacity);
   pointer-events: none;
   z-index: 0;
@@ -1059,7 +1059,7 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_06_pc.png") center center/cover no-repeat;
+  background: url("../images/bg_06_pc.png") center center/cover no-repeat;
   opacity: 0.8;
   pointer-events: none;
   z-index: 0;
@@ -1133,7 +1133,7 @@ section:not(.hero) {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../bg_07_pc.png") center center/cover no-repeat;
+  background: url("../images/bg_07_pc.png") center center/cover no-repeat;
   opacity: 0.9;
   pointer-events: none;
   z-index: 0;
@@ -1210,13 +1210,13 @@ section:not(.hero) {
     max-width: 560px;
   }
   .qa::before {
-    background-image: url("../bg_06_pc.png");
+    background-image: url("../images/bg_06_pc.png");
   }
   .voice::before {
-    background-image: url("../bg_02_pc.png");
+    background-image: url("../images/bg_02_pc.png");
   }
   .plan::before {
-    background-image: url("../bg_05_pc.png");
+    background-image: url("../images/bg_05_pc.png");
   }
   .hero__title-en {
     font-size: 8.8rem;
