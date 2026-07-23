@@ -586,6 +586,42 @@ section:not(.hero) {
   justify-content: center;
   padding: $nav-h 24px 0;
   position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  &::before {
+    background:
+      radial-gradient(ellipse at -8% -12%, rgba($white, 0.46) 0%, rgba($gold-light, 0.26) 18%, rgba($gold, 0.08) 38%, transparent 62%),
+      linear-gradient(132deg, rgba($white, 0.28) 0%, rgba($gold-pale, 0.16) 16%, rgba($white, 0.055) 37%, transparent 63%);
+    mix-blend-mode: screen;
+    opacity: 0.8;
+  }
+
+  &::after {
+    top: -28%;
+    left: -18%;
+    width: 86%;
+    height: 148%;
+    background:
+      linear-gradient(116deg, transparent 0%, rgba($white, 0.2) 21%, rgba($gold-pale, 0.1) 34%, transparent 48%),
+      linear-gradient(121deg, transparent 17%, rgba($white, 0.13) 28%, rgba($gold-light, 0.07) 39%, transparent 56%),
+      radial-gradient(circle, rgba($white, 0.2) 0 1px, transparent 1.5px);
+    background-size: 100% 100%, 100% 100%, 88px 88px;
+    filter: blur(16px);
+    mix-blend-mode: screen;
+    opacity: 0.62;
+    transform: rotate(-7deg);
+    animation: hero-light-breathe 8s ease-in-out infinite alternate;
+  }
 }
 
 .hero__inner {
@@ -594,6 +630,8 @@ section:not(.hero) {
   align-items: center;
   gap: 22px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero__label {
@@ -618,7 +656,7 @@ section:not(.hero) {
   letter-spacing: 0.04em;
   color: $white;
   display: block;
-  opacity: 0.56;
+  opacity: 1;
   text-shadow:
     0 0 60px rgba($gold, 0.25),
     0 0 120px rgba($gold, 0.08);
@@ -652,6 +690,7 @@ section:not(.hero) {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  z-index: 1;
 }
 
 .hero__scroll-text {
@@ -667,6 +706,24 @@ section:not(.hero) {
   width: 1px;
   height: 60px;
   background: linear-gradient(180deg, rgba($gold, 0.6) 0%, transparent 100%);
+}
+
+@keyframes hero-light-breathe {
+  from {
+    opacity: 0.48;
+    transform: rotate(-7deg) translate3d(-1.5%, -1%, 0);
+  }
+
+  to {
+    opacity: 0.72;
+    transform: rotate(-7deg) translate3d(2%, 1.5%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after {
+    animation: none;
+  }
 }
 
 // ============================================================
@@ -1362,6 +1419,12 @@ section:not(.hero) {
 
   .bg-layer {
     background-position: center top;
+  }
+
+  .hero::after {
+    left: -34%;
+    width: 118%;
+    opacity: 0.52;
   }
 
   .section--bg,
