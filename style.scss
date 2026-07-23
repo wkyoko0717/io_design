@@ -675,6 +675,24 @@ section:not(.hero) {
   font-weight: 300;
 }
 
+.hero__label.js-fade-up,
+.hero__title.js-fade-up,
+.hero__catch.js-fade-up {
+  transform: scale(0.985);
+  filter: blur(14px);
+  transition:
+    opacity 1.25s cubic-bezier(0.22, 0.82, 0.36, 1),
+    filter 1.25s cubic-bezier(0.22, 0.82, 0.36, 1),
+    transform 1.25s cubic-bezier(0.22, 0.82, 0.36, 1);
+}
+
+.hero__label.js-fade-up.is-visible,
+.hero__title.js-fade-up.is-visible,
+.hero__catch.js-fade-up.is-visible {
+  transform: scale(1);
+  filter: blur(0);
+}
+
 .hero__tags {
   display: flex;
   gap: 12px;
