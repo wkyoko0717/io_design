@@ -488,6 +488,7 @@ section:not(.hero) {
   justify-content: center;
   padding: 58px 24px 0;
   position: relative;
+  background: linear-gradient(180deg, transparent 0%, transparent 52%, rgba(26, 24, 18, 0.04) 72%, rgba(26, 24, 18, 0.12) 88%, rgba(26, 24, 18, 0.24) 100%);
   overflow: hidden;
   isolation: isolate;
 }
